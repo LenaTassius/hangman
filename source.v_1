@@ -1,0 +1,51 @@
+import random
+from re import findall # Initiating packages that i need
+fhand = open("dictionaryCode.csv", 'r') # opening dictionary
+deathcounter = 0
+dictionary = ''
+word = []
+l = ""
+count = 0 # initiating variables because js taught me to do so
+for i in fhand:
+	l += i # Stores dictionary into variable
+dictionary = findall('([\w]*)\,([\w]*)\,(([A-Za-z,]* *)*)',l) # stores each word, word type, and word definition into a tuple
+while 1:
+	word = random.choice(dictionary) # Choosing a random word
+	spaces = "" # Re-initiates spaces for every new word
+	for i in word[0]:
+		spaces += "_ " # adds a blank for every word
+	print("_________________________________________________________________________________________________________________________________________________________________") # because it looks neat
+	while 1:
+		print("The word is a: " + word[1] + " (Noun, Article, Adjective, Verb, Adverb, Plural, Participle).\n", "The definition is: " + word[2] + ".\n") # displays the word type and definition
+		guess = input("Guess the word or letter: ") # Guess a letter or word
+		count2 = 0 # initiates count2 at 0
+		for i in word[0]:
+			if guess.lower() == i.lower(): # lowers the letters because capitalization makes life fun
+				spliced = spaces.split(" ") # puts each '_' into their own list, because convenience
+				spliced[count] = guess # sets the space that is in the same place as the word the letter guessed
+				spaces = "" # re-initiating space because science
+				for i in spliced:
+					spaces += spliced[count2] + " " # re-adds spaces
+					count2 += 1 # because i need it
+				count2 = 0
+			count += 1
+		count = 0 # counting and resetting when needed
+		print(spaces) # prints current guessed word
+		s = "" # allows me to .join() easier
+		if guess.lower() not in word[0].lower(): # checks to see if the letter is in the list. if not adds 1 to your failures
+			deathcounter += 1
+			print("Wrong.\n")
+		if s.join(spaces).replace(" ","").lower() == word[0].lower(): # checks to see if your guess is right
+			deathcounter = 0
+			print("Correct! Good job!\n")
+			break
+		elif guess.lower() == word[0].lower(): #checks to see if the word you guess is right
+			print("Correct! Good job!\n")
+			deathcounter = 0
+			break
+		if deathcounter >= 9: # if you die you exit the game.
+			print("You lost, better luck next time!")
+			print(word[0])
+			input("")
+			exit()
+		print("You have {0} guesses left.".format(9-deathcounter)) # displays how many guesses you have left.
