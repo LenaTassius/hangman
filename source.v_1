@@ -8,6 +8,7 @@ l = ""
 count = 0 # initiating variables because js taught me to do so
 for i in fhand:
 	l += i # Stores dictionary into variable
+fhand.close()
 dictionary = findall('([\w]*)\,([\w]*)\,(([A-Za-z,]* *)*)',l) # stores each word, word type, and word definition into a tuple
 while 1:
 	word = random.choice(dictionary) # Choosing a random word
